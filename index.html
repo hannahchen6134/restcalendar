@@ -158,7 +158,9 @@
       padding: clamp(20px, 3vw, 30px) clamp(22px, 3.8vw, 42px);
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
+      text-align: center;
       animation: softRise 0.7s ease both;
     }
 
@@ -238,6 +240,10 @@
       text-wrap: balance;
     }
 
+    h1 .title-part {
+      display: inline;
+    }
+
     .hero-subtitle {
       max-width: 560px;
       margin: 10px 0 0;
@@ -264,6 +270,7 @@
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
       margin-top: 16px;
     }
@@ -514,6 +521,8 @@
     }
 
     .month-jump {
+      flex: 1 1 auto;
+      min-width: 0;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -949,6 +958,8 @@
     }
 
     .dialog-stat {
+      position: relative;
+      overflow: hidden;
       padding: 16px;
       border: 1px solid rgba(212, 175, 112, 0.22);
       border-radius: 18px;
@@ -956,17 +967,70 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76), 0 10px 24px rgba(74, 46, 24, 0.045);
     }
 
+    .dialog-stat::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      border-radius: inherit;
+      opacity: 0.72;
+    }
+
+    .dialog-stat:first-child {
+      border-color: rgba(127, 155, 114, 0.28);
+      background:
+        radial-gradient(90% 80% at 18% 0%, rgba(127, 155, 114, 0.13), transparent 62%),
+        linear-gradient(180deg, rgba(250, 253, 246, 0.88), rgba(237, 243, 228, 0.5));
+    }
+
+    .dialog-stat:first-child::before {
+      background: linear-gradient(180deg, rgba(127, 155, 114, 0.68), rgba(212, 175, 112, 0.26));
+    }
+
+    .dialog-stat:last-child {
+      border-color: rgba(184, 146, 74, 0.3);
+      background:
+        radial-gradient(90% 80% at 18% 0%, rgba(212, 175, 112, 0.18), transparent 64%),
+        linear-gradient(180deg, rgba(255, 251, 242, 0.9), rgba(247, 237, 218, 0.56));
+    }
+
+    .dialog-stat:last-child::before {
+      background: linear-gradient(180deg, rgba(184, 146, 74, 0.72), rgba(185, 120, 100, 0.24));
+    }
+
     .dialog-stat strong {
       display: block;
+      position: relative;
       color: var(--espresso);
       font-family: "Noto Serif TC", "PMingLiU", serif;
-      font-size: 2rem;
+      font-size: 2.08rem;
       line-height: 1.1;
     }
 
+    .dialog-stat:first-child strong {
+      color: #395234;
+    }
+
+    .dialog-stat:last-child strong {
+      color: var(--brown-dark);
+    }
+
     .dialog-stat span {
+      position: relative;
+      display: inline-flex;
+      margin-top: 5px;
       color: var(--text-light);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .dialog-stat:first-child span {
+      color: rgba(57, 82, 52, 0.72);
+    }
+
+    .dialog-stat:last-child span {
+      color: rgba(122, 85, 56, 0.72);
     }
 
     .custom-entry {
@@ -1247,18 +1311,18 @@
 
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       .page {
-        width: min(100% - 24px, 430px);
-        padding: 16px 0 46px;
+        width: min(100% - 38px, 430px);
+        padding: 28px 0 54px;
       }
 
       .hero {
-        margin-bottom: 14px;
+        margin-bottom: 22px;
       }
 
       .hero-copy {
-        padding: 8px 4px 4px;
+        padding: 8px 0 2px;
       }
 
       .summary-panel {
@@ -1266,9 +1330,14 @@
       }
 
       h1 {
-        font-size: clamp(1.28rem, 5.9vw, 1.64rem);
-        letter-spacing: 0.02em;
-        line-height: 1.34;
+        max-width: 12em;
+        font-size: clamp(1.22rem, 5.1vw, 1.46rem);
+        letter-spacing: 0.035em;
+        line-height: 1.45;
+      }
+
+      h1 .title-part {
+        display: block;
       }
 
       .eyebrow {
@@ -1277,26 +1346,28 @@
       }
 
       .hero .eyebrow {
-        font-size: 0.56rem;
-        letter-spacing: 0.24em;
-        margin-bottom: 8px;
+        font-size: 0.54rem;
+        letter-spacing: 0.22em;
+        margin-bottom: 12px;
       }
 
       .hero-subtitle {
-        margin-top: 8px;
-        font-size: 0.8rem;
-        line-height: 1.75;
+        max-width: 22rem;
+        margin-top: 12px;
+        font-size: 0.78rem;
+        line-height: 1.9;
       }
 
       .daily-whisper {
-        margin-top: 8px;
-        padding: 7px 11px;
+        max-width: 100%;
+        margin-top: 14px;
+        padding: 8px 12px;
         font-size: 0.78rem;
         border-radius: 16px;
       }
 
       .hero-actions {
-        margin-top: 12px;
+        margin-top: 18px;
         gap: 8px;
       }
 
@@ -1315,7 +1386,7 @@
       }
 
       .tabs {
-        margin-bottom: 14px;
+        margin-bottom: 22px;
       }
 
       .tab-button {
@@ -1325,15 +1396,19 @@
 
       .toolbar {
         position: relative;
-        padding: 8px 0 10px;
-        margin-bottom: 14px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        padding: 0 0 16px;
+        margin-bottom: 24px;
         background: transparent;
         box-shadow: none;
         gap: 8px;
       }
 
       .month-jump {
-        padding-bottom: 7px;
+        width: 100%;
+        padding-bottom: 8px;
       }
 
       .month-jump button {
@@ -1347,6 +1422,10 @@
         gap: 6px;
       }
 
+      #toolbarToday {
+        display: none;
+      }
+
       .mini-button {
         min-height: 34px;
         padding: 6px 11px;
@@ -1354,8 +1433,8 @@
       }
 
       .month-header {
-        min-height: 72px;
-        padding: 17px 18px 15px;
+        min-height: 88px;
+        padding: 22px 20px 18px;
       }
 
       .month-name {
@@ -1422,7 +1501,7 @@
     <section class="hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <p class="eyebrow">Gentle Strength Calendar</p>
-        <h1 id="page-title">2026養肌肉變漂亮月曆</h1>
+        <h1 id="page-title"><span class="title-part">2026養肌肉</span><span class="title-part">變漂亮月曆</span></h1>
         <p class="hero-subtitle">今天也為自己完成一點點。每天 100 下，點進日期記下每次運動，讓身體和生活一起慢慢發光。</p>
         <div class="daily-whisper" id="dailyWhisper">慢慢來，也是在前進。</div>
         <div class="hero-actions">
