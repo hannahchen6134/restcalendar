@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026 休息間隔重訓月曆</title>
+  <title>2026養肌肉變漂亮月曆</title>
+  <meta name="description" content="每天 100 下，溫柔記錄每一次重訓，讓身體和生活一起慢慢發光。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="2026養肌肉變漂亮月曆">
+  <meta property="og:description" content="低壓力、奶油金色的每日重訓紀錄月曆。">
+  <meta property="og:image" content="preview-card.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2026養肌肉變漂亮月曆">
+  <meta name="twitter:description" content="每天 100 下，溫柔記錄每一次重訓。">
+  <meta name="twitter:image" content="preview-card.svg">
+  <link rel="icon" type="image/svg+xml" href="thumbnail.svg">
   <style>
     :root {
       --cream: #F5EFE4;
@@ -188,6 +198,18 @@
       font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
+    }
+
+    .hero .eyebrow {
+      margin-bottom: 12px;
+      color: rgba(184, 146, 74, 0.58);
+      font-family: "Segoe Script", "Brush Script MT", "Snell Roundhand", "Apple Chancery", cursive;
+      font-size: clamp(0.58rem, 1vw, 0.72rem);
+      font-weight: 400;
+      letter-spacing: 0.34em;
+      line-height: 1.4;
+      text-transform: lowercase;
+      animation: cursiveFloat 3.8s ease-in-out 0.6s infinite alternate;
     }
 
     h1 {
@@ -998,6 +1020,37 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
     }
 
+    .session-edit {
+      display: grid;
+      grid-template-columns: auto minmax(76px, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .session-edit label {
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+
+    .session-edit input {
+      min-height: 36px;
+      width: 100%;
+      border: 1px solid rgba(184, 146, 74, 0.22);
+      border-radius: 999px;
+      background: rgba(255, 252, 246, 0.86);
+      color: var(--brown-dark);
+      padding: 6px 12px;
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+    }
+
+    .session-unit {
+      color: var(--text-light);
+      font-size: 0.82rem;
+    }
+
     .remove-session {
       width: 30px;
       height: 30px;
@@ -1056,6 +1109,17 @@
     @keyframes softRise {
       from { opacity: 0; transform: translate3d(0, 12px, 0); }
       to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    @keyframes cursiveFloat {
+      from {
+        opacity: 0.66;
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        opacity: 0.86;
+        transform: translate3d(1px, -1px, 0);
+      }
     }
 
     @keyframes monthEnter {
@@ -1184,6 +1248,11 @@
       .eyebrow {
         font-size: 0.62rem;
         letter-spacing: 0.14em;
+      }
+
+      .hero .eyebrow {
+        font-size: 0.56rem;
+        letter-spacing: 0.24em;
       }
 
       .summary-grid {
@@ -1611,7 +1680,55 @@
 
       sessions.forEach((reps, index) => {
         const item = document.createElement("li");
-        item.innerHTML = `<span>第 ${index + 1} 次：${reps} 下</span>`;
+
+        const editor = document.createElement("div");
+        editor.className = "session-edit";
+
+        const label = document.createElement("label");
+        const inputId = `session-${index + 1}`;
+        label.setAttribute("for", inputId);
+        label.textContent = `第 ${index + 1} 次`;
+
+        const input = document.createElement("input");
+        input.id = inputId;
+        input.type = "number";
+        input.inputMode = "numeric";
+        input.min = "1";
+        input.max = "9999";
+        input.value = reps;
+        input.setAttribute("aria-label", `修改第 ${index + 1} 次紀錄`);
+
+        const unit = document.createElement("span");
+        unit.className = "session-unit";
+        unit.textContent = "下";
+
+        const saveEdit = () => {
+          const amount = clampReps(input.value);
+          if (!amount) {
+            input.value = reps;
+            return;
+          }
+          if (amount === reps) {
+            input.value = reps;
+            return;
+          }
+          const next = sessionsFor(activeKey);
+          next[index] = amount;
+          setSessions(activeKey, next);
+          showToast(`已更新第 ${index + 1} 次`);
+        };
+
+        input.addEventListener("change", saveEdit);
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            saveEdit();
+            input.blur();
+          }
+        });
+
+        editor.append(label, input, unit);
+
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "remove-session";
@@ -1622,7 +1739,7 @@
           next.splice(index, 1);
           setSessions(activeKey, next);
         });
-        item.appendChild(remove);
+        item.append(editor, remove);
         sessionList.appendChild(item);
       });
     }

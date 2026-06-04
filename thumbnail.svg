@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">2026養肌肉變漂亮月曆縮圖</title>
+  <desc id="desc">奶油金色方形縮圖，中央有柔和月曆卡片與 100 下紀錄。</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="18%" r="78%">
+      <stop offset="0%" stop-color="#fff6d8"/>
+      <stop offset="58%" stop-color="#f7efe2"/>
+      <stop offset="100%" stop-color="#ede3d2"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fffcf6"/>
+      <stop offset="100%" stop-color="#f5ecdc"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#4a2e18" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <circle cx="108" cy="96" r="92" fill="#c99275" opacity="0.08"/>
+  <circle cx="432" cy="72" r="120" fill="#d4af70" opacity="0.14"/>
+  <g filter="url(#shadow)">
+    <rect x="104" y="86" width="304" height="340" rx="46" fill="url(#card)" stroke="#e1c17a" stroke-width="2"/>
+    <rect x="132" y="118" width="248" height="276" rx="30" fill="none" stroke="#b8924a" stroke-opacity="0.22" stroke-width="2"/>
+  </g>
+  <text x="256" y="170" text-anchor="middle" fill="#b8924a" fill-opacity="0.62" font-family="'Segoe Script','Brush Script MT','Apple Chancery',cursive" font-size="26" letter-spacing="7">gentle</text>
+  <text x="256" y="244" text-anchor="middle" fill="#2c1a0e" font-family="'Noto Serif TC','PMingLiU',serif" font-size="78" font-weight="600">2026</text>
+  <text x="256" y="308" text-anchor="middle" fill="#4a2e18" font-family="'Noto Serif TC','PMingLiU',serif" font-size="38" font-weight="600" letter-spacing="4">養肌肉</text>
+  <path d="M176 348H336" stroke="#d4af70" stroke-width="11" stroke-linecap="round" opacity="0.42"/>
+  <text x="256" y="390" text-anchor="middle" fill="#7a6040" font-family="'Noto Sans TC','Microsoft JhengHei',sans-serif" font-size="24" font-weight="300">每天 100 下</text>
+</svg>
