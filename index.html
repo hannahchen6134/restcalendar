@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2026養肌肉變漂亮月曆</title>
-  <meta name="description" content="每天 100 下，溫柔記錄每一次重訓，讓身體和生活一起慢慢發光。">
+  <meta name="description" content="自由設定每日目標，溫柔記錄每一次重訓，讓身體和生活一起慢慢發光。">
   <meta property="og:type" content="website">
   <meta property="og:title" content="2026養肌肉變漂亮月曆">
   <meta property="og:description" content="低壓力、奶油金色的每日重訓紀錄月曆。">
   <meta property="og:image" content="preview-card.svg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="2026養肌肉變漂亮月曆">
-  <meta name="twitter:description" content="每天 100 下，溫柔記錄每一次重訓。">
+  <meta name="twitter:description" content="自由設定每日目標，溫柔記錄每一次重訓。">
   <meta name="twitter:image" content="preview-card.svg">
   <link rel="icon" type="image/svg+xml" href="thumbnail.svg">
   <style>
@@ -604,6 +604,54 @@
     .settings-menu .mini-button {
       width: 100%;
       justify-content: center;
+    }
+
+    .goal-setting {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+      padding: 10px;
+      border: 1px solid rgba(184, 146, 74, 0.16);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.74), rgba(246, 237, 222, 0.38));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+    }
+
+    .goal-field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .goal-field label {
+      color: var(--text-light);
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+    }
+
+    .goal-field input {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid rgba(184, 146, 74, 0.22);
+      border-radius: 999px;
+      background: rgba(255, 252, 246, 0.92);
+      color: var(--brown-dark);
+      padding: 6px 10px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    }
+
+    .goal-field input:focus {
+      border-color: rgba(184, 146, 74, 0.52);
+      box-shadow:
+        0 0 0 3px rgba(212, 175, 112, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.86);
+    }
+
+    .goal-setting .mini-button {
+      width: auto;
+      min-height: 34px;
+      padding-inline: 12px;
     }
 
     .calendar {
@@ -1553,7 +1601,7 @@
       <div class="hero-copy">
         <p class="eyebrow">Gentle Strength Calendar</p>
         <h1 id="page-title"><span class="title-part">2026養肌肉</span><span class="title-part">變漂亮月曆</span></h1>
-        <p class="hero-subtitle">今天也為自己完成一點點。每天 100 下，點進日期記下每次運動，讓身體和生活一起慢慢發光。</p>
+        <p class="hero-subtitle" id="heroSubtitle">今天也為自己完成一點點。設定每日目標，點進日期記下每次運動，讓身體和生活一起慢慢發光。</p>
         <div class="daily-whisper" id="dailyWhisper">慢慢來，也是在前進。</div>
         <div class="hero-actions">
           <a class="button primary" href="#calendar">開始記錄</a>
@@ -1574,6 +1622,13 @@
           <button class="mini-button" type="button" id="toolbarToday">記錄今天</button>
           <button class="mini-button icon-button" type="button" id="settingsToggle" aria-label="更多選項" aria-expanded="false">⋯</button>
           <div class="settings-menu" id="settingsMenu" aria-label="更多選項">
+            <div class="goal-setting">
+              <div class="goal-field">
+                <label for="goalInput">每日目標</label>
+                <input id="goalInput" type="number" inputmode="numeric" min="1" max="9999" value="100">
+              </div>
+              <button class="mini-button" type="button" id="saveGoal">套用</button>
+            </div>
             <button class="mini-button" type="button" id="exportData">匯出紀錄</button>
             <button class="mini-button" type="button" id="clearData">清空紀錄</button>
           </div>
@@ -1665,8 +1720,9 @@
 
   <script>
     const YEAR = 2026;
-    const DAILY_GOAL = 100;
+    const DEFAULT_DAILY_GOAL = 100;
     const STORAGE_KEY = "rest-interval-calendar-2026-sessions";
+    const GOAL_STORAGE_KEY = "rest-interval-calendar-2026-goal";
     const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
     const weekdayNames = ["日", "一", "二", "三", "四", "五", "六"];
     const calendar = document.querySelector("#calendar");
@@ -1675,6 +1731,7 @@
     const missDaysEl = document.querySelector("#missDays");
     const totalRepsEl = document.querySelector("#totalReps");
     const yearRateEl = document.querySelector("#yearRate");
+    const heroSubtitle = document.querySelector("#heroSubtitle");
     const progressTextEl = document.querySelector("#progressText");
     const progressFillEl = document.querySelector("#progressFill");
     const dailyWhisper = document.querySelector("#dailyWhisper");
@@ -1692,12 +1749,15 @@
     const monthSummary = document.querySelector("#monthSummary");
     const settingsToggle = document.querySelector("#settingsToggle");
     const settingsMenu = document.querySelector("#settingsMenu");
+    const goalInput = document.querySelector("#goalInput");
+    const saveGoalButton = document.querySelector("#saveGoal");
     const tabButtons = document.querySelectorAll(".tab-button");
     const tabPanels = document.querySelectorAll(".tab-panel");
     const today = new Date();
     const todayKey = today.getFullYear() === YEAR ? dateKey(today.getMonth(), today.getDate()) : "";
 
     let records = loadRecords();
+    let dailyGoal = loadDailyGoal();
     let currentMonth = today.getFullYear() === YEAR ? today.getMonth() : 0;
     let activeKey = "";
 
@@ -1718,6 +1778,21 @@
       } catch {
         return {};
       }
+    }
+
+    function loadDailyGoal() {
+      const stored = clampReps(localStorage.getItem(GOAL_STORAGE_KEY) || DEFAULT_DAILY_GOAL);
+      return stored || DEFAULT_DAILY_GOAL;
+    }
+
+    function saveDailyGoal() {
+      localStorage.setItem(GOAL_STORAGE_KEY, String(dailyGoal));
+    }
+
+    function updateGoalText() {
+      heroSubtitle.textContent = `今天也為自己完成一點點。每天 ${dailyGoal.toLocaleString("zh-Hant-TW")} 下，點進日期記下每次運動，讓身體和生活一起慢慢發光。`;
+      if (!activeKey) dialogRemain.textContent = dailyGoal;
+      goalInput.value = dailyGoal;
     }
 
     function saveRecords() {
@@ -1831,14 +1906,14 @@
     function createDay(monthIndex, day) {
       const key = dateKey(monthIndex, day);
       const total = totalFor(key);
-      const remaining = Math.max(DAILY_GOAL - total, 0);
+      const remaining = Math.max(dailyGoal - total, 0);
       const cell = document.createElement("button");
       cell.type = "button";
       cell.className = "day";
       cell.dataset.key = key;
       if (key === todayKey) cell.classList.add("today");
       if (total > 0) cell.classList.add("has-record");
-      if (total >= DAILY_GOAL) cell.classList.add("done");
+      if (total >= dailyGoal) cell.classList.add("done");
       cell.innerHTML = `
         <div class="day-head">
           <span class="date-number">${day}</span>
@@ -1852,7 +1927,7 @@
     function countDoneInMonth(monthIndex) {
       let done = 0;
       for (let day = 1; day <= daysInMonth(monthIndex); day += 1) {
-        if (totalFor(dateKey(monthIndex, day)) >= DAILY_GOAL) done += 1;
+        if (totalFor(dateKey(monthIndex, day)) >= dailyGoal) done += 1;
       }
       return done;
     }
@@ -1890,11 +1965,11 @@
       if (!activeKey) return;
       const sessions = sessionsFor(activeKey);
       const total = totalFor(activeKey);
-      const remaining = Math.max(DAILY_GOAL - total, 0);
+      const remaining = Math.max(dailyGoal - total, 0);
       dialogTitle.textContent = activeKey;
       dialogReps.textContent = total;
       dialogRemain.textContent = remaining;
-      const isComplete = total >= DAILY_GOAL;
+      const isComplete = total >= dailyGoal;
       dayDialogCard.classList.toggle("completed", isComplete);
       completeStamp.classList.toggle("show", isComplete);
       completionNote.classList.toggle("show", isComplete);
@@ -1982,6 +2057,23 @@
       showToast(`已記下 ${amount} 下`);
     }
 
+    function applyDailyGoal() {
+      const nextGoal = clampReps(goalInput.value);
+      if (!nextGoal) {
+        goalInput.value = dailyGoal;
+        return;
+      }
+      dailyGoal = nextGoal;
+      saveDailyGoal();
+      updateGoalText();
+      renderMonth();
+      refreshAll();
+      if (activeKey) renderDialog();
+      settingsMenu.classList.remove("open");
+      settingsToggle.setAttribute("aria-expanded", "false");
+      showToast(`每日目標已改成 ${dailyGoal.toLocaleString("zh-Hant-TW")} 下`);
+    }
+
     function showToast(message) {
       let toast = document.querySelector("#toast");
       if (!toast) {
@@ -2003,7 +2095,7 @@
         for (let day = 1; day <= daysInMonth(monthIndex); day += 1) {
           const total = totalFor(dateKey(monthIndex, day));
           totalReps += total;
-          if (total >= DAILY_GOAL) doneDays += 1;
+          if (total >= dailyGoal) doneDays += 1;
         }
       }
 
@@ -2040,7 +2132,7 @@
         const key = inYear ? dateKey(date.getMonth(), date.getDate()) : "";
         const total = key ? totalFor(key) : 0;
         if (total > 0) item.classList.add("has-record");
-        if (total >= DAILY_GOAL) {
+        if (total >= dailyGoal) {
           item.classList.add("done");
           doneCount += 1;
         }
@@ -2078,6 +2170,7 @@
     settingsToggle.addEventListener("click", () => {
       const isOpen = settingsMenu.classList.toggle("open");
       settingsToggle.setAttribute("aria-expanded", String(isOpen));
+      if (isOpen) goalInput.value = dailyGoal;
     });
     document.addEventListener("click", (event) => {
       if (!event.target.closest(".toolbar-actions")) {
@@ -2105,6 +2198,11 @@
       if (event.key === "Enter") addSession(customReps.value);
     });
 
+    saveGoalButton.addEventListener("click", applyDailyGoal);
+    goalInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") applyDailyGoal();
+    });
+
     document.querySelector("#clearDay").addEventListener("click", () => {
       if (!activeKey) return;
       setSessions(activeKey, []);
@@ -2121,13 +2219,13 @@
     });
 
     document.querySelector("#exportData").addEventListener("click", () => {
-      const rows = [["日期", "每次紀錄", "完成次數", "剩餘次數", "是否完成"]];
+      const rows = [["日期", "每次紀錄", "完成次數", "每日目標", "剩餘次數", "是否完成"]];
       for (let monthIndex = 0; monthIndex < 12; monthIndex += 1) {
         for (let day = 1; day <= daysInMonth(monthIndex); day += 1) {
           const key = dateKey(monthIndex, day);
           const sessions = sessionsFor(key);
           const reps = totalFor(key);
-          rows.push([key, sessions.join(" + "), reps, Math.max(DAILY_GOAL - reps, 0), reps >= DAILY_GOAL ? "完成" : "未完成"]);
+          rows.push([key, sessions.join(" + "), reps, dailyGoal, Math.max(dailyGoal - reps, 0), reps >= dailyGoal ? "完成" : "未完成"]);
         }
       }
       const csv = rows.map((row) => row.map((item) => `"${String(item).replaceAll('"', '""')}"`).join(",")).join("\n");
@@ -2140,6 +2238,7 @@
       URL.revokeObjectURL(url);
     });
 
+    updateGoalText();
     renderMonth();
     refreshAll();
   </script>
