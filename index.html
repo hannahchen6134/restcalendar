@@ -236,12 +236,16 @@
       font-weight: 600;
       letter-spacing: 0.045em;
       line-height: 1.28;
-      animation: titleUnfold 0.9s ease both;
+      opacity: 1;
+      visibility: visible;
       text-wrap: balance;
     }
 
     h1 .title-part {
       display: inline;
+      color: inherit;
+      opacity: 1;
+      visibility: visible;
     }
 
     .hero-subtitle {
@@ -1429,14 +1433,22 @@
       }
 
       h1 {
+        display: block;
         max-width: 12em;
+        min-height: 0;
         font-size: clamp(1.22rem, 5.1vw, 1.46rem);
         letter-spacing: 0.035em;
         line-height: 1.45;
+        color: var(--espresso);
+        opacity: 1;
+        visibility: visible;
       }
 
       h1 .title-part {
         display: block;
+        color: inherit;
+        opacity: 1;
+        visibility: visible;
       }
 
       .eyebrow {
