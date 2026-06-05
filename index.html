@@ -683,6 +683,36 @@
       line-height: 1.75;
     }
 
+    .install-button {
+      width: 100%;
+      min-height: 42px;
+      margin-top: 10px;
+      border-color: transparent;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 246, 212, 0.36), transparent 72%),
+        linear-gradient(135deg, rgba(184, 146, 74, 0.96), rgba(122, 85, 56, 0.92));
+      color: #fffaf0;
+      box-shadow:
+        0 12px 26px rgba(74, 46, 24, 0.16),
+        0 0 20px rgba(212, 175, 112, 0.14),
+        inset 0 1px 0 rgba(255, 236, 190, 0.28);
+    }
+
+    .install-button.is-muted {
+      border-color: rgba(184, 146, 74, 0.2);
+      background: linear-gradient(180deg, rgba(255, 252, 246, 0.94), rgba(250, 244, 234, 0.82));
+      color: var(--brown);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 20px rgba(74, 46, 24, 0.055);
+    }
+
+    .install-tip {
+      display: block;
+      margin-top: 8px;
+      color: var(--text-light);
+      font-size: 0.72rem;
+      line-height: 1.7;
+    }
+
     .goal-setting {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -1748,7 +1778,9 @@
             </div>
             <div class="install-note">
               <strong>放到桌面</strong>
-              <span>iPhone：分享 → 加入主畫面<br>Android：選單 → 新增至主畫面</span>
+              <span id="installStatus">按下面按鈕，能一鍵安裝的瀏覽器會直接跳出視窗。</span>
+              <button class="mini-button install-button" type="button" id="installApp">一鍵放到桌面</button>
+              <small class="install-tip" id="installTip">如果手機沒有跳出安裝視窗，我會顯示最短步驟。</small>
             </div>
             <button class="mini-button" type="button" id="exportData">匯出紀錄</button>
             <button class="mini-button" type="button" id="clearData">清空紀錄</button>
@@ -1867,6 +1899,9 @@
     const settingsMenu = document.querySelector("#settingsMenu");
     const goalInput = document.querySelector("#goalInput");
     const saveGoalButton = document.querySelector("#saveGoal");
+    const installAppButton = document.querySelector("#installApp");
+    const installStatus = document.querySelector("#installStatus");
+    const installTip = document.querySelector("#installTip");
     const tabButtons = document.querySelectorAll(".tab-button");
     const tabPanels = document.querySelectorAll(".tab-panel");
     const today = new Date();
@@ -1876,6 +1911,7 @@
     let dailyGoal = loadDailyGoal();
     let currentMonth = today.getFullYear() === YEAR ? today.getMonth() : 0;
     let activeKey = "";
+    let deferredInstallPrompt = null;
 
     const whispers = [
       "慢慢來，也是在前進。",
@@ -2204,6 +2240,61 @@
       showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1600);
     }
 
+    function isStandaloneApp() {
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    }
+
+    function isIosDevice() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    }
+
+    function updateInstallState() {
+      if (!installAppButton) return;
+      if (isStandaloneApp()) {
+        installStatus.textContent = "已經放到桌面了，可以直接從桌面打開。";
+        installTip.textContent = "這個版本會像小 App 一樣開啟。";
+        installAppButton.textContent = "已放到桌面";
+        installAppButton.disabled = true;
+        installAppButton.classList.add("is-muted");
+        return;
+      }
+
+      installAppButton.disabled = false;
+      installAppButton.textContent = "一鍵放到桌面";
+      installAppButton.classList.toggle("is-muted", !deferredInstallPrompt);
+
+      if (deferredInstallPrompt) {
+        installStatus.textContent = "可以直接安裝成桌面小 App。";
+        installTip.textContent = "點按鈕後選擇安裝，就會出現在桌面。";
+      } else if (isIosDevice()) {
+        installStatus.textContent = "iPhone 目前不能由網站自動安裝。";
+        installTip.textContent = "請按瀏覽器下方分享，再選「加入主畫面」。";
+      } else {
+        installStatus.textContent = "如果沒有跳出安裝視窗，代表目前瀏覽器暫時不支援一鍵安裝。";
+        installTip.textContent = "可以用瀏覽器選單裡的「新增至主畫面」完成。";
+      }
+    }
+
+    async function installApp() {
+      if (isStandaloneApp()) {
+        showToast("已經在桌面版本裡了");
+        updateInstallState();
+        return;
+      }
+
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        updateInstallState();
+        showToast(choice.outcome === "accepted" ? "已送出安裝" : "先保留也沒關係");
+        return;
+      }
+
+      updateInstallState();
+      showToast(isIosDevice() ? "iPhone 請按分享加入主畫面" : "請從瀏覽器選單新增到桌面");
+    }
+
     function refreshAll() {
       let doneDays = 0;
       let totalReps = 0;
@@ -2321,6 +2412,19 @@
     goalInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") applyDailyGoal();
     });
+    installAppButton.addEventListener("click", installApp);
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      updateInstallState();
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      updateInstallState();
+      showToast("已經放到桌面了");
+    });
 
     document.querySelector("#clearDay").addEventListener("click", () => {
       if (!activeKey) return;
@@ -2358,8 +2462,15 @@
     });
 
     updateGoalText();
+    updateInstallState();
     renderMonth();
     refreshAll();
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>
