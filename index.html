@@ -313,10 +313,10 @@
     }
 
     .summary-panel {
-      padding: 38px;
+      padding: 30px;
       display: grid;
       align-content: center;
-      gap: 22px;
+      gap: 18px;
       background:
         linear-gradient(135deg, rgba(184, 146, 74, 0.1), rgba(253, 250, 245, 0.88)),
         var(--paper);
@@ -369,8 +369,47 @@
     }
 
     .summary-panel.tab-panel {
-      max-width: 720px;
+      max-width: 620px;
       margin: 0 auto;
+    }
+
+    .summary-sentence {
+      margin: 0;
+      color: var(--brown-dark);
+      font-family: "Noto Serif TC", "PMingLiU", serif;
+      font-size: clamp(1.08rem, 2.2vw, 1.34rem);
+      line-height: 1.85;
+      text-align: center;
+    }
+
+    .summary-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-mini {
+      padding: 12px 10px;
+      text-align: center;
+      border: 1px solid rgba(184, 146, 74, 0.14);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.68), rgba(246, 237, 222, 0.34));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .summary-mini strong {
+      display: block;
+      color: var(--espresso);
+      font-family: "Noto Serif TC", "PMingLiU", serif;
+      font-size: 1.34rem;
+      line-height: 1.1;
+    }
+
+    .summary-mini span {
+      display: block;
+      margin-top: 5px;
+      color: var(--text-light);
+      font-size: 0.76rem;
     }
 
     .summary-grid {
@@ -420,7 +459,7 @@
     }
 
     .progress-wrap {
-      padding: 18px;
+      padding: 14px;
       background: linear-gradient(180deg, rgba(253, 250, 245, 0.74), rgba(245, 239, 228, 0.38));
       border: 1px solid rgba(212, 175, 112, 0.2);
       border-radius: 18px;
@@ -608,6 +647,15 @@
     .settings-menu .mini-button {
       width: 100%;
       justify-content: center;
+    }
+
+    .settings-note {
+      margin: 0;
+      padding: 10px 12px;
+      color: var(--text-light);
+      font-size: 0.74rem;
+      line-height: 1.7;
+      border-top: 1px solid rgba(184, 146, 74, 0.12);
     }
 
     .goal-setting {
@@ -928,6 +976,7 @@
     }
 
     .footer-note {
+      display: none;
       margin: 20px 0 0;
       color: var(--text-light);
       font-size: 0.88rem;
@@ -1613,8 +1662,8 @@
       <div class="hero-copy">
         <p class="eyebrow">Gentle Strength Calendar</p>
         <h1 id="page-title"><span class="title-part">2026養肌肉</span><span class="title-part">變漂亮月曆</span></h1>
-        <p class="hero-subtitle" id="heroSubtitle">今天也為自己完成一點點。設定每日目標，點進日期記下每次運動，讓身體和生活一起慢慢發光。</p>
-        <div class="daily-whisper" id="dailyWhisper">慢慢來，也是在前進。</div>
+        <p class="hero-subtitle" id="heroSubtitle">每天一點點，讓身體慢慢發光。</p>
+        <div class="daily-whisper" id="dailyWhisper" hidden>慢慢來，也是在前進。</div>
         <div class="hero-actions">
           <a class="button primary" href="#calendar">開始記錄</a>
           <button class="button" type="button" id="openToday">記錄今天</button>
@@ -1643,6 +1692,7 @@
             </div>
             <button class="mini-button" type="button" id="exportData">匯出紀錄</button>
             <button class="mini-button" type="button" id="clearData">清空紀錄</button>
+            <p class="settings-note">紀錄只保存在目前這台電腦或手機的這個瀏覽器中；換裝置、換瀏覽器或清除網站資料後，就不會帶過去。</p>
           </div>
         </div>
       </nav>
@@ -1652,40 +1702,33 @@
     </section>
 
     <aside class="summary-panel tab-panel" id="summaryPanel" role="tabpanel" aria-labelledby="summaryTab" aria-label="年度總覽">
-      <div class="summary-grid">
-        <div class="stat">
-          <span class="stat-value" id="doneDays">0</span>
-          <span class="stat-label">完成日</span>
+      <p class="summary-sentence" id="summarySentence">今年還在等待第一個小光點。</p>
+      <div class="summary-meta">
+        <div class="summary-mini">
+          <strong id="doneDays">0</strong>
+          <span>完成日</span>
         </div>
-        <div class="stat">
-          <span class="stat-value" id="missDays">365</span>
-          <span class="stat-label">待完成</span>
+        <div class="summary-mini">
+          <strong id="totalReps">0</strong>
+          <span>累積下數</span>
         </div>
-        <div class="stat">
-          <span class="stat-value" id="totalReps">0</span>
-          <span class="stat-label">累積下數</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="yearRate">0%</span>
-          <span class="stat-label">今年進度</span>
+        <div class="summary-mini">
+          <strong id="yearRate">0%</strong>
+          <span>今年進度</span>
         </div>
       </div>
       <div class="progress-wrap">
         <div class="progress-top">
-          <span>年度 365 天進度</span>
+          <span>慢慢累積</span>
           <span id="progressText">0 / 365</span>
         </div>
         <div class="progress-bar" aria-hidden="true">
           <div class="progress-fill" id="progressFill"></div>
         </div>
       </div>
-      <div class="week-card" aria-label="本週完成狀態">
-        <div class="week-title">
-          <span>本週小光點</span>
-          <span id="weekSummary">0 / 7</span>
-        </div>
-        <div class="week-dots" id="weekDots"></div>
-      </div>
+      <span id="missDays" hidden>365</span>
+      <span id="weekSummary" hidden>0 / 7</span>
+      <div class="week-dots" id="weekDots" hidden></div>
     </aside>
     <p class="footer-note">紀錄只保存在目前這台電腦或手機的這個瀏覽器中；換裝置、換瀏覽器或清除網站資料後，就不會帶過去。</p>
   </main>
@@ -1743,6 +1786,7 @@
     const missDaysEl = document.querySelector("#missDays");
     const totalRepsEl = document.querySelector("#totalReps");
     const yearRateEl = document.querySelector("#yearRate");
+    const summarySentence = document.querySelector("#summarySentence");
     const heroSubtitle = document.querySelector("#heroSubtitle");
     const progressTextEl = document.querySelector("#progressText");
     const progressFillEl = document.querySelector("#progressFill");
@@ -1802,7 +1846,7 @@
     }
 
     function updateGoalText() {
-      heroSubtitle.textContent = `今天也為自己完成一點點。每天 ${dailyGoal.toLocaleString("zh-Hant-TW")} 下，點進日期記下每次運動，讓身體和生活一起慢慢發光。`;
+      heroSubtitle.textContent = `每天 ${dailyGoal.toLocaleString("zh-Hant-TW")} 下，慢慢記錄就好。`;
       if (!activeKey) dialogRemain.textContent = dailyGoal;
       goalInput.value = dailyGoal;
     }
@@ -2119,6 +2163,9 @@
       yearRateEl.textContent = `${yearRate}%`;
       progressTextEl.textContent = `${doneDays} / ${yearDays}`;
       progressFillEl.style.width = `${yearRate}%`;
+      summarySentence.textContent = doneDays > 0
+        ? `今年完成了 ${doneDays} 天，累積 ${totalReps.toLocaleString("zh-Hant-TW")} 下。`
+        : "今年還在等待第一個小光點。";
       updateWeekDots();
       updateDailyWhisper();
     }
