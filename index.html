@@ -5,14 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>養肌肉，變漂亮</title>
   <meta name="description" content="每天一點點，身體會記得。低壓力的溫柔重訓紀錄月曆。">
+  <link rel="canonical" href="https://hannahchen6134.github.io/restcalendar/">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hannahchen6134.github.io/restcalendar/">
   <meta property="og:title" content="養肌肉，變漂亮">
-  <meta property="og:description" content="每天一點點，身體會記得。低壓力、奶油金色的重訓紀錄月曆。">
-  <meta property="og:image" content="preview-card.svg">
+  <meta property="og:description" content="每天一點點，身體會記得。低壓力、奶油金色的重訓紀錄月曆，記下每一次照顧自己的小小努力。">
+  <meta property="og:image" content="https://hannahchen6134.github.io/restcalendar/preview-card.svg">
+  <meta property="og:image:alt" content="養肌肉，變漂亮，奶油金色的溫柔重訓紀錄月曆。">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="養肌肉，變漂亮">
-  <meta name="twitter:description" content="每天一點點，身體會記得。">
-  <meta name="twitter:image" content="preview-card.svg">
+  <meta name="twitter:description" content="每天一點點，身體會記得。低壓力的溫柔重訓紀錄月曆。">
+  <meta name="twitter:image" content="https://hannahchen6134.github.io/restcalendar/preview-card.svg">
   <link rel="icon" type="image/svg+xml" href="thumbnail.svg">
   <link rel="manifest" href="site.webmanifest">
   <style>
@@ -612,6 +617,22 @@
       padding: 6px 12px;
       white-space: nowrap;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 20px rgba(74, 46, 24, 0.055);
+    }
+
+    .share-button {
+      border-color: rgba(127, 155, 114, 0.24);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 253, 241, 0.54), transparent 72%),
+        linear-gradient(180deg, rgba(239, 245, 232, 0.96), rgba(255, 250, 238, 0.86));
+      color: #526946;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.88),
+        0 10px 22px rgba(72, 92, 58, 0.075);
+    }
+
+    .settings-menu .share-button {
+      width: 100%;
+      min-height: 40px;
     }
 
     .icon-button {
@@ -1767,6 +1788,7 @@
         <div class="month-jump" id="monthJump"></div>
         <div class="toolbar-actions">
           <button class="mini-button" type="button" id="toolbarToday">記錄今天</button>
+          <button class="mini-button share-button" type="button" id="sharePage">分享</button>
           <button class="mini-button icon-button" type="button" id="settingsToggle" aria-label="更多選項" aria-expanded="false">⋯</button>
           <div class="settings-menu" id="settingsMenu" aria-label="更多選項">
             <div class="goal-setting">
@@ -1784,6 +1806,7 @@
             </div>
             <button class="mini-button" type="button" id="exportData">匯出紀錄</button>
             <button class="mini-button" type="button" id="clearData">清空紀錄</button>
+            <button class="mini-button share-button" type="button" id="sharePageMenu">分享網頁</button>
             <p class="settings-note">紀錄只保存在目前這台電腦或手機的這個瀏覽器中；換裝置、換瀏覽器或清除網站資料後，就不會帶過去。</p>
           </div>
         </div>
@@ -1870,6 +1893,9 @@
     const DEFAULT_DAILY_GOAL = 100;
     const STORAGE_KEY = "rest-interval-calendar-2026-sessions";
     const GOAL_STORAGE_KEY = "rest-interval-calendar-2026-goal";
+    const SHARE_URL = "https://hannahchen6134.github.io/restcalendar/";
+    const SHARE_TITLE = "養肌肉，變漂亮";
+    const SHARE_TEXT = "我在用這個低壓力的溫柔重訓月曆，每天一點點記錄，讓身體慢慢發光。";
     const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
     const weekdayNames = ["日", "一", "二", "三", "四", "五", "六"];
     const calendar = document.querySelector("#calendar");
@@ -1902,6 +1928,7 @@
     const installAppButton = document.querySelector("#installApp");
     const installStatus = document.querySelector("#installStatus");
     const installTip = document.querySelector("#installTip");
+    const shareButtons = document.querySelectorAll("#sharePage, #sharePageMenu");
     const tabButtons = document.querySelectorAll(".tab-button");
     const tabPanels = document.querySelectorAll(".tab-panel");
     const today = new Date();
@@ -2240,6 +2267,52 @@
       showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1600);
     }
 
+    function copyShareText() {
+      const text = `${SHARE_TITLE}\n${SHARE_TEXT}\n${SHARE_URL}`;
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+      return Promise.resolve();
+    }
+
+    async function sharePage() {
+      const payload = {
+        title: SHARE_TITLE,
+        text: SHARE_TEXT,
+        url: SHARE_URL
+      };
+
+      settingsMenu.classList.remove("open");
+      settingsToggle.setAttribute("aria-expanded", "false");
+
+      if (navigator.share) {
+        try {
+          await navigator.share(payload);
+          showToast("分享視窗已開啟");
+          return;
+        } catch (error) {
+          if (error && error.name === "AbortError") return;
+        }
+      }
+
+      try {
+        await copyShareText();
+        showToast("分享文字已複製");
+      } catch {
+        showToast("請手動複製網址分享");
+      }
+    }
+
     function isStandaloneApp() {
       return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     }
@@ -2411,6 +2484,9 @@
     saveGoalButton.addEventListener("click", applyDailyGoal);
     goalInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") applyDailyGoal();
+    });
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", sharePage);
     });
     installAppButton.addEventListener("click", installApp);
 

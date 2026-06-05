@@ -1,45 +1,61 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">養肌肉，變漂亮 分享預覽圖</title>
-  <desc id="desc">奶油金色的優雅重訓紀錄月曆分享預覽圖。</desc>
+  <desc id="desc">奶油金色、柔和光暈的重訓紀錄月曆分享卡。</desc>
   <defs>
-    <radialGradient id="bg" cx="50%" cy="18%" r="86%">
-      <stop offset="0%" stop-color="#fff7df"/>
-      <stop offset="56%" stop-color="#f3e7d6"/>
+    <radialGradient id="bg" cx="50%" cy="12%" r="94%">
+      <stop offset="0%" stop-color="#fff9e9"/>
+      <stop offset="48%" stop-color="#f4e8d8"/>
       <stop offset="100%" stop-color="#e6d8c6"/>
     </radialGradient>
-    <radialGradient id="light" cx="50%" cy="32%" r="52%">
-      <stop offset="0%" stop-color="#fffdf8" stop-opacity="0.96"/>
-      <stop offset="74%" stop-color="#fffdf8" stop-opacity="0"/>
+    <radialGradient id="halo" cx="50%" cy="35%" r="48%">
+      <stop offset="0%" stop-color="#fffdf8" stop-opacity="0.98"/>
+      <stop offset="58%" stop-color="#fff8e8" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#fff8e8" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#fffdf8"/>
-      <stop offset="100%" stop-color="#f8efe1"/>
+      <stop offset="56%" stop-color="#fbf4ea"/>
+      <stop offset="100%" stop-color="#f4e8d8"/>
+    </linearGradient>
+    <linearGradient id="button" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#b8924a"/>
+      <stop offset="100%" stop-color="#6f4324"/>
     </linearGradient>
     <linearGradient id="ink" x1="0" x2="1">
       <stop offset="0%" stop-color="#2c1a0e"/>
       <stop offset="100%" stop-color="#6f4b2b"/>
     </linearGradient>
-    <filter id="shadow" x="-18%" y="-24%" width="136%" height="150%">
-      <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#4a2e18" flood-opacity="0.13"/>
+    <filter id="cardShadow" x="-18%" y="-26%" width="136%" height="154%">
+      <feDropShadow dx="0" dy="30" stdDeviation="32" flood-color="#4a2e18" flood-opacity="0.14"/>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
     </filter>
   </defs>
+
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect width="1200" height="630" fill="url(#light)"/>
-  <g opacity="0.18">
-    <path d="M120 132H1080M120 498H1080" stroke="#b8924a"/>
-    <path d="M190 90V540M1010 90V540" stroke="#b8924a"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <g opacity="0.2">
+    <path d="M134 116H1066M134 514H1066" stroke="#b8924a"/>
+    <path d="M208 82V548M992 82V548" stroke="#b8924a"/>
   </g>
-  <g filter="url(#shadow)">
-    <rect x="146" y="92" width="892" height="444" rx="46" fill="url(#paper)" stroke="#d9bd7a" stroke-opacity="0.46"/>
-    <rect x="178" y="124" width="828" height="380" rx="32" fill="none" stroke="#b8924a" stroke-opacity="0.16"/>
+  <circle cx="602" cy="338" r="218" fill="#fffaf0" opacity="0.46" filter="url(#softGlow)"/>
+
+  <g filter="url(#cardShadow)">
+    <rect x="132" y="80" width="936" height="470" rx="54" fill="url(#paper)" stroke="#d9bd7a" stroke-opacity="0.5"/>
+    <rect x="168" y="116" width="864" height="398" rx="38" fill="none" stroke="#b8924a" stroke-opacity="0.17"/>
   </g>
-  <text x="600" y="186" text-anchor="middle" fill="#b8924a" fill-opacity="0.58" font-family="'Segoe Script','Brush Script MT','Apple Chancery',cursive" font-size="29" letter-spacing="12">gentle strength calendar</text>
-  <text x="600" y="294" text-anchor="middle" fill="url(#ink)" font-family="'Noto Serif TC','PMingLiU',serif" font-size="78" font-weight="600" letter-spacing="8">養肌肉，變漂亮</text>
-  <text x="600" y="362" text-anchor="middle" fill="#7a6040" font-family="'Noto Sans TC','Microsoft JhengHei',sans-serif" font-size="28" font-weight="300" letter-spacing="1.5">每天一點點，身體會記得。</text>
-  <g transform="translate(468 418)">
-    <rect width="264" height="52" rx="26" fill="#fffaf0" stroke="#d9bd7a" stroke-opacity="0.42"/>
-    <circle cx="58" cy="26" r="15" fill="#f8efe1" stroke="#d4af70" stroke-opacity="0.56"/>
-    <circle cx="132" cy="26" r="15" fill="#edf3e6" stroke="#7f9b72" stroke-opacity="0.48"/>
-    <circle cx="206" cy="26" r="15" fill="#f8efe1" stroke="#d4af70" stroke-opacity="0.56"/>
+
+  <text x="600" y="172" text-anchor="middle" fill="#b8924a" fill-opacity="0.6" font-family="'Segoe Script','Brush Script MT','Apple Chancery',cursive" font-size="30" letter-spacing="13">gentle strength calendar</text>
+  <text x="600" y="290" text-anchor="middle" fill="url(#ink)" font-family="'Noto Serif TC','PMingLiU',serif" font-size="82" font-weight="600" letter-spacing="9">養肌肉，變漂亮</text>
+  <text x="600" y="362" text-anchor="middle" fill="#7a6040" font-family="'Noto Sans TC','Microsoft JhengHei',sans-serif" font-size="28" font-weight="300" letter-spacing="2">每天一點點，身體會記得。</text>
+
+  <g transform="translate(414 414)">
+    <rect width="372" height="62" rx="31" fill="#fffaf0" stroke="#d9bd7a" stroke-opacity="0.42"/>
+    <circle cx="72" cy="31" r="16" fill="#f8efe1" stroke="#d4af70" stroke-opacity="0.6"/>
+    <circle cx="145" cy="31" r="16" fill="#edf3e6" stroke="#7f9b72" stroke-opacity="0.52"/>
+    <circle cx="218" cy="31" r="16" fill="#f8efe1" stroke="#d4af70" stroke-opacity="0.6"/>
+    <rect x="270" y="13" width="75" height="36" rx="18" fill="url(#button)" opacity="0.94"/>
+    <text x="307" y="38" text-anchor="middle" fill="#fffaf0" font-family="'Noto Sans TC','Microsoft JhengHei',sans-serif" font-size="18" font-weight="500">記錄</text>
   </g>
 </svg>
