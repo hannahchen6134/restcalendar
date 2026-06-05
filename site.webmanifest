@@ -1,0 +1,17 @@
+{
+  "name": "養肌肉，變漂亮",
+  "short_name": "變漂亮月曆",
+  "description": "每天一點點，身體會記得。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F0E6D7",
+  "theme_color": "#F0E6D7",
+  "icons": [
+    {
+      "src": "thumbnail.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

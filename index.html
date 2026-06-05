@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026養肌肉變漂亮月曆</title>
-  <meta name="description" content="自由設定每日目標，溫柔記錄每一次重訓，讓身體和生活一起慢慢發光。">
+  <title>養肌肉，變漂亮</title>
+  <meta name="description" content="每天一點點，身體會記得。低壓力的溫柔重訓紀錄月曆。">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="2026養肌肉變漂亮月曆">
-  <meta property="og:description" content="低壓力、奶油金色的每日重訓紀錄月曆。">
+  <meta property="og:title" content="養肌肉，變漂亮">
+  <meta property="og:description" content="每天一點點，身體會記得。低壓力、奶油金色的重訓紀錄月曆。">
   <meta property="og:image" content="preview-card.svg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="2026養肌肉變漂亮月曆">
-  <meta name="twitter:description" content="自由設定每日目標，溫柔記錄每一次重訓。">
+  <meta name="twitter:title" content="養肌肉，變漂亮">
+  <meta name="twitter:description" content="每天一點點，身體會記得。">
   <meta name="twitter:image" content="preview-card.svg">
   <link rel="icon" type="image/svg+xml" href="thumbnail.svg">
+  <link rel="manifest" href="site.webmanifest">
   <style>
     :root {
       --cream: #F0E6D7;
@@ -284,26 +285,26 @@
     }
 
     .button {
-      min-height: 40px;
+      min-height: 38px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 8px 16px;
-      border: 1px solid rgba(184, 146, 74, 0.36);
+      padding: 7px 15px;
+      border: 1px solid rgba(184, 146, 74, 0.28);
       border-radius: 999px;
       background: linear-gradient(180deg, rgba(255, 252, 245, 0.96), rgba(250, 244, 234, 0.88));
       color: var(--brown);
       text-decoration: none;
-      box-shadow: 0 8px 22px rgba(74, 46, 24, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+      box-shadow: 0 7px 18px rgba(74, 46, 24, 0.055), inset 0 1px 0 rgba(255, 255, 255, 0.88);
       transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
 
     .button.primary {
-      background: linear-gradient(135deg, #9b6d40, var(--brown-dark));
+      background: linear-gradient(135deg, #94673e, #4f311b);
       color: var(--cream);
       border-color: transparent;
-      box-shadow: 0 12px 30px rgba(74, 46, 24, 0.2), 0 0 24px rgba(212, 175, 112, 0.2), inset 0 1px 0 rgba(255, 236, 190, 0.26);
+      box-shadow: 0 10px 24px rgba(74, 46, 24, 0.18), 0 0 18px rgba(212, 175, 112, 0.14), inset 0 1px 0 rgba(255, 236, 190, 0.22);
     }
 
     .button:hover {
@@ -324,38 +325,37 @@
     }
 
     .tabs {
-      max-width: 760px;
-      margin: 0 auto 16px;
-      padding: 5px;
+      max-width: 620px;
+      margin: 0 auto 22px;
+      padding: 4px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
       background:
-        linear-gradient(180deg, rgba(255, 253, 248, 0.82), rgba(246, 237, 222, 0.5));
-      border: 1px solid rgba(184, 146, 74, 0.2);
+        linear-gradient(180deg, rgba(255, 253, 248, 0.62), rgba(246, 237, 222, 0.3));
+      border: 1px solid rgba(184, 146, 74, 0.14);
       border-radius: 999px;
-      box-shadow: 0 10px 24px rgba(74, 46, 24, 0.045), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
     }
 
     .tab-button {
-      min-height: 36px;
+      min-height: 34px;
       border: 1px solid transparent;
       border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255, 252, 246, 0.34), rgba(245, 239, 228, 0.18));
+      background: transparent;
       color: var(--text-muted);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+      box-shadow: none;
       transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .tab-button.active {
       color: #5f3c20;
-      border-color: rgba(184, 146, 74, 0.28);
+      border-color: rgba(184, 146, 74, 0.22);
       background:
-        radial-gradient(circle at 50% 0%, rgba(255, 246, 212, 0.7), transparent 72%),
-        linear-gradient(180deg, rgba(238, 215, 170, 0.68), rgba(255, 250, 239, 0.92));
+        radial-gradient(circle at 50% 0%, rgba(255, 246, 212, 0.45), transparent 72%),
+        linear-gradient(180deg, rgba(255, 253, 248, 0.76), rgba(246, 237, 222, 0.5));
       box-shadow:
-        0 6px 16px rgba(74, 46, 24, 0.055),
-        0 0 14px rgba(212, 175, 112, 0.1),
+        0 5px 14px rgba(74, 46, 24, 0.04),
         inset 0 1px 0 rgba(255, 255, 255, 0.86);
     }
 
@@ -656,6 +656,31 @@
       font-size: 0.74rem;
       line-height: 1.7;
       border-top: 1px solid rgba(184, 146, 74, 0.12);
+    }
+
+    .install-note {
+      padding: 11px 12px;
+      border: 1px solid rgba(184, 146, 74, 0.14);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.64), rgba(246, 237, 222, 0.28));
+      color: var(--text-muted);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+    }
+
+    .install-note strong {
+      display: block;
+      color: var(--brown-dark);
+      font-family: "Noto Serif TC", "PMingLiU", serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    .install-note span {
+      display: block;
+      margin-top: 4px;
+      color: var(--text-light);
+      font-size: 0.73rem;
+      line-height: 1.75;
     }
 
     .goal-setting {
@@ -1661,7 +1686,7 @@
     <section class="hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <p class="eyebrow">Gentle Strength Calendar</p>
-        <h1 id="page-title"><span class="title-part">2026養肌肉</span><span class="title-part">變漂亮月曆</span></h1>
+        <h1 id="page-title"><span class="title-part">養肌肉</span><span class="title-part">變漂亮</span></h1>
         <p class="hero-subtitle" id="heroSubtitle">每天一點點，讓身體慢慢發光。</p>
         <div class="daily-whisper" id="dailyWhisper" hidden>慢慢來，也是在前進。</div>
         <div class="hero-actions">
@@ -1689,6 +1714,10 @@
                 <input id="goalInput" type="number" inputmode="numeric" min="1" max="9999" value="100">
               </div>
               <button class="mini-button" type="button" id="saveGoal">套用</button>
+            </div>
+            <div class="install-note">
+              <strong>放到桌面</strong>
+              <span>iPhone：分享 → 加入主畫面<br>Android：選單 → 新增至主畫面</span>
             </div>
             <button class="mini-button" type="button" id="exportData">匯出紀錄</button>
             <button class="mini-button" type="button" id="clearData">清空紀錄</button>
